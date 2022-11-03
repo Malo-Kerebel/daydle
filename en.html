@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Daydle</title>
+    <link rel="icon" type="image/jpg" href="https://kerebel.xyz//pictures/logo.jpg"/>
+    <meta charset="UTF-8">
+    <meta name="meilleur site du monde l'internet">
+    <link rel="stylesheet" href="https://kerebel.xyz//style.css">
+  </head>
+  <body>
+    
+    <script>
+
+      window.addEventListener("keydown", function(event) {
+      	  /* la fonction détecte la touche du clavier présser*/
+      	  var big = 0;
+      	  if (big == 0) {
+      	      if (event.key == "b") {
+      		  document.body.style.backgroundImage = "url('https://kerebel.xyz//pictures/big.png')";
+      		  /*Si on appuie sur b on change le fond d'écran*/			
+      	      } else {
+      		  document.body.style.backgroundImage = "url('https://kerebel.xyz//pictures/background.png')";
+      		  /*si c'est une autre touche qui est appuyé on met le fond de base*/
+      	      }
+      	  };
+      	  
+      }, true);
+    </script>
+
+    <a id="haut">
+
+      <a id="a_entete" href="https://kerebel.xyz/index.html">
+
+	<div id="entete">
+
+	  <img id="logo" src="https://kerebel.xyz/pictures/logo.jpg" >
+	  
+	  <h1>Daydle</h1>
+	  
+	</div>
+
+      </a>
+
+      
+      <div id="contenu">
+	
+	<h2>Find the day of the week of the date : <b id=date></b></h2>
+	
+	<div id="boutons">
+	<button onclick="reponse('monday')">Monday</button>
+	<button onclick="reponse('tuesday')">Tuesday</button>
+	<button onclick="reponse('wednesday')">Wednesday</button>
+	<button onclick="reponse('thursday')">Thursday</button>
+	<button onclick="reponse('friday')">Friday</button>
+	<button onclick="reponse('satursday')">Satursday</button>
+	<button onclick="reponse('sunday')">Sunday</button>
+	<p id="progressBar"></p>
+	</div>
+	
+	<p id="reponse"></p>
+	<script>
+
+	  var jour;
+	  
+	  let xhr = new XMLHttpRequest();
+	  
+	  var url = "https://daydle.kerebel.xyz/daydle.json";
+	  
+	  xhr.open('GET', url, true);
+	  xhr.responseType = 'application/json';
+
+	  xhr.onload = () => {
+	      if (xhr.status == 200) {
+		  // alert("delay");
+		  var data = JSON.parse(xhr.response);
+		  jour = data["jour"];
+		  if (jour == "lundi") {
+			jour = "monday";
+		  } else if (jour == "mardi") {
+			jour = "tuesday";
+		  } else if (jour == "mercredi") {
+			jour = "wednesday";
+		  } else if (jour == "jeudi") {
+			jour = "thursday";
+		  } else if (jour == "vendredi") {
+			jour = "friday";
+		  } else if (jour == "samedi") {
+			jour = "satursday";
+		  } else {
+			jour = "sunday";	
+		  }
+		  document.getElementById("date").innerHTML = data["date"];
+	      } else {
+		  alert("An error occured, please try to reload the page");
+	      }
+	  }
+
+	  xhr.send()
+	  
+	  window.onload=setInterval(displayProgress ,1000)
+	  var Count = 1; //Initialize counter
+	  console.log(document.getElementById("progressBar").innerHTML = "00:00");
+	  function displayProgress() {
+	      document.getElementById("progressBar").innerHTML = time(Count)
+	      Count +=1; //increment counter
+	  }
+
+	  function time(compte) {
+	      return `${~~(compte/60) < 10 ? "0" + ~~(compte/60) : ~~(compte/60)}:${~~(compte%60) < 10 ? "0" + ~~(compte%60) : ~~(compte%60)}`
+	  }
+
+	  function reponse(res) {
+	      var variablename=document.getElementById("boutons");
+	      variablename.parentNode.removeChild(variablename);
+	      if (res == jour) {
+		  document.getElementById("reponse").innerHTML = `Correct, the day was effectively : ${jour}, you got it in : ${time(Count)}`
+		  // alert(`La bonne réponse était bien ${jour}, vous avez eu bon en ${time(Count)}`);
+	      } else {
+		  document.getElementById("reponse").innerHTML = `Sadly, the correct answer was : ${jour}`;
+	      }
+	      
+	  }
+	</script>
+
+      </div>
+      
+      <div id="Pied">
+	
+	<ul>
+
+	  <li><a href="#haut">Back to the top</a></li>
+
+	  <li><a href="https://twitter.com/Mahkda_">Contact me on twitter</a></li>
+
+	  
+	</ul>
+	
+      </div>
+      
+  </body>
+
+</html>
