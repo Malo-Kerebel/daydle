@@ -96,10 +96,11 @@
 	  }
 
 	  xhr.send()
+
+	  var Count = 1;
 	  
 	  window.onload = () => {
 	      progressBarId = setInterval(displayProgress ,1000)
-	      var Count = 1; //Initialize counter
 	      console.log(document.getElementById("progressBar").innerHTML = "00:00");
 	      function displayProgress() {
 		  document.getElementById("progressBar").innerHTML = time(Count)
