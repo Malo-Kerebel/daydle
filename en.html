@@ -56,11 +56,20 @@
 	<button onclick="reponse('sunday')">Sunday</button>
 	<p id="progressBar"></p>
 	</div>
-	
-	<p id="reponse" class="paragraphe"></p>
+	<div id="reponse" class="paragraphe">
+	  <p id="reponse_p"></p>
+	  <button id="buttonShare" onclick="copyToClipboard()">Copy your result</button>
+	</div>
 	<script>
 
 	  var jour;
+	  var nbDaydle;
+
+	  var rep = document.getElementById('reponse');
+	  rep.style.display = 'none';
+
+	  var buttonShare = document.getElementById('buttonShare');
+	  buttonShare.style.display = 'none';
 	  
 	  let xhr = new XMLHttpRequest();
 	  
@@ -89,6 +98,7 @@
 		  } else {
 			jour = "sunday";	
 		  }
+		  nbDaydle = data["nbDaydle"];
 		  document.getElementById("date").innerHTML = data["date"];
 	      } else {
 		  alert("An error occured, please try to reload the page");
@@ -113,16 +123,34 @@
 	  }
 
 	  function reponse(res) {
+	      rep.style.display = 'flex';
+	  
 	      clearInterval(progressBarId);
 	      var variablename=document.getElementById("boutons");
 	      variablename.parentNode.removeChild(variablename);
 	      if (res == jour) {
-		  document.getElementById("reponse").innerHTML = `Correct, the day was effectively : ${jour}, you got it in : ${time(Count)}`
+		  buttonShare.style.display = 'block';
+		  document.getElementById("reponse_p").innerHTML = `Correct, the day was effectively : ${jour}, you got it in : ${time(Count)}`
 		  // alert(`La bonne réponse était bien ${jour}, vous avez eu bon en ${time(Count)}`);
 	      } else {
-		  document.getElementById("reponse").innerHTML = `Sadly, the correct answer was : ${jour}`;
+		  document.getElementById("reponse_p").innerHTML = `Sadly, the correct answer was : ${jour}`;
 	      }
 	      
+	  }
+
+	  function copyToClipboard(){
+	      const selBox = document.createElement('textarea');
+	      selBox.style.position = 'fixed';
+	      selBox.style.left = '0';
+	      selBox.style.top = '0';
+	      selBox.style.opacity = '0';
+	      selBox.value = "📅 Daydle " + nbDaydle + " found in " + time(Count) + " 📅";
+	      document.body.appendChild(selBox);
+	      selBox.focus();
+	      selBox.select();
+	      document.execCommand('copy');
+	      document.body.removeChild(selBox);
+	      // alert('text copied to clipboard, please use Ctrl-V to paste the data'); 
 	  }
 	</script>
 

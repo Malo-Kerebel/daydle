@@ -56,12 +56,22 @@
 	<button onclick="reponse('dimanche')">Dimanche</button>
 	<p id="progressBar"></p>
 	</div>
-	
-	<p id="reponse" class="paragraphe"></p>
+
+	<div id="reponse" class="paragraphe">
+	  <p id="reponse_p"></p>
+	  <button id="buttonShare" onclick="copyToClipboard()">Copier le résultat</button>
+	</div>
 	
 	<script>
 
 	  var jour;
+	  var nbDaydle;
+
+	  var rep = document.getElementById('reponse');
+	  rep.style.display = 'none';
+
+	  var buttonShare = document.getElementById('buttonShare');
+	  buttonShare.style.display = 'none';
 	  
 	  let xhr = new XMLHttpRequest();
 	  
@@ -75,6 +85,7 @@
 		  // alert("delay");
 		  var data = JSON.parse(xhr.response);
 		  jour = data["jour"];
+		  nbDaydle = data["nbDaydle"];
 		  document.getElementById("date").innerHTML = data["date"];
 	      } else {
 		  alert("An error occured, please try to reload the page");
@@ -87,28 +98,46 @@
 	  
 	  window.onload = () => {
 	      progressBarId = setInterval(displayProgress ,1000);
-	  document.getElementById("progressBar").innerHTML = "00:00"
-	  function displayProgress() {
-	      document.getElementById("progressBar").innerHTML = time(Count)
-	      Count +=1; //increment counter
-	  }}
+	      document.getElementById("progressBar").innerHTML = "00:00"
+	      function displayProgress() {
+		  document.getElementById("progressBar").innerHTML = time(Count)
+		  Count +=1; //increment counter
+	      }
+	  }
 
 	  function time(compte) {
 	      return `${~~(compte/60) < 10 ? "0" + ~~(compte/60) : ~~(compte/60)}:${~~(compte%60) < 10 ? "0" + ~~(compte%60) : ~~(compte%60)}`
 	  }
 
 	  function reponse(res) {
+	      rep.style.display = 'flex';
+	      
 	      clearInterval(progressBarId);
 	      var variablename=document.getElementById("boutons");
 	      variablename.parentNode.removeChild(variablename);
 	      if (res == jour) {
-		  document.getElementById("reponse").innerHTML = `La bonne réponse était bien ${jour}, vous avez eu bon en ${time(Count)}`
+		  buttonShare.style.display = 'block';
+		  document.getElementById("reponse_p").innerHTML = `La bonne réponse était bien ${jour}, vous avez eu bon en ${time(Count)}`
 		  // alert(`La bonne réponse était bien ${jour}, vous avez eu bon en ${time(Count)}`);
 	      } else {
-		  document.getElementById("reponse").innerHTML = `Dommage, la bonne réponse était ${jour}`;
+		  document.getElementById("reponse_p").innerHTML = `Dommage, la bonne réponse était ${jour}`;
 	      }
-	      
 	  }
+
+	  function copyToClipboard(){
+	      const selBox = document.createElement('textarea');
+	      selBox.style.position = 'fixed';
+	      selBox.style.left = '0';
+	      selBox.style.top = '0';
+	      selBox.style.opacity = '0';
+	      selBox.value = "📅 Daydle " + nbDaydle + " trouvé en " + time(Count) + " 📅";
+	      document.body.appendChild(selBox);
+	      selBox.focus();
+	      selBox.select();
+	      document.execCommand('copy');
+	      document.body.removeChild(selBox);
+	      // alert('text copied to clipboard, please use Ctrl-V to paste the data'); 
+	  }  
 	</script>
 
       </div>

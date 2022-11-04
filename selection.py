@@ -14,3 +14,16 @@ jour = rnd.randint(1, nb_jour[str(mois)] + 1)
 
 f = open("date.txt", 'w')
 f.write(f"{year}-{mois:02}-{jour:02}")
+f.close()
+
+f = open("nb_daydle.txt", 'r')
+try:
+    nb_daydle = int(f.readlines()[0]) + 1
+except:
+    print(f.readlines()[0])
+    nb_daydle = 1
+f.close()
+
+f = open("nb_daydle.txt", "w")
+f.write(f"{nb_daydle}")
+f.close()
