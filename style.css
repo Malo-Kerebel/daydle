@@ -1,5 +1,5 @@
 body {
-	background-image:url("/pictures/background.png");
+	background-image:url("https://kerebel.xyz/pictures/background.png");
 	display:flex;
 	background-size: auto;
 	flex-direction:column;
@@ -172,7 +172,20 @@ ol a {
 
 video {
 	height: 400px;
-    }
+}
+
+button{
+    font-size:12pt;
+    margin: 5px;
+}
+
+#boutons{
+    display: flex;
+    flex-direction:row;
+    align-items: center;
+    justify-content: space-around;
+}
+
 
 
 @media screen and (max-width: 1100px) {
@@ -195,6 +208,12 @@ video {
     #contenu{
 	width:100%;
     }
+
+    #boutons{
+	flex-direction: column;
+	font-size: 20px;
+    }
+    
     .paragraphe {
 	margin: 2px;
 	padding: 2px;

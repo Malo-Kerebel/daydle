@@ -5,7 +5,7 @@
     <link rel="icon" type="image/jpg" href="https://kerebel.xyz//pictures/logo.jpg"/>
     <meta charset="UTF-8">
     <meta name="meilleur site du monde l'internet">
-    <link rel="stylesheet" href="https://kerebel.xyz//style.css">
+    <link rel="stylesheet" href="./style.css">
   </head>
   <body>
     
@@ -46,7 +46,7 @@
 	
 	<h2>Find the day of the week of the date : <b id=date></b></h2>
 	
-	<div id="boutons">
+	<div id="boutons" class="paragraphe">
 	<button onclick="reponse('monday')">Monday</button>
 	<button onclick="reponse('tuesday')">Tuesday</button>
 	<button onclick="reponse('wednesday')">Wednesday</button>
@@ -57,7 +57,7 @@
 	<p id="progressBar"></p>
 	</div>
 	
-	<p id="reponse"></p>
+	<p id="reponse" class="paragraphe"></p>
 	<script>
 
 	  var jour;
@@ -97,19 +97,22 @@
 
 	  xhr.send()
 	  
-	  window.onload=setInterval(displayProgress ,1000)
-	  var Count = 1; //Initialize counter
-	  console.log(document.getElementById("progressBar").innerHTML = "00:00");
-	  function displayProgress() {
-	      document.getElementById("progressBar").innerHTML = time(Count)
-	      Count +=1; //increment counter
-	  }
+	  window.onload = () => {
+	      progressBarId = setInterval(displayProgress ,1000)
+	      var Count = 1; //Initialize counter
+	      console.log(document.getElementById("progressBar").innerHTML = "00:00");
+	      function displayProgress() {
+		  document.getElementById("progressBar").innerHTML = time(Count)
+		  Count +=1; //increment counter
+	      }
+	  }  
 
 	  function time(compte) {
 	      return `${~~(compte/60) < 10 ? "0" + ~~(compte/60) : ~~(compte/60)}:${~~(compte%60) < 10 ? "0" + ~~(compte%60) : ~~(compte%60)}`
 	  }
 
 	  function reponse(res) {
+	      clearInterval(progressBarId);
 	      var variablename=document.getElementById("boutons");
 	      variablename.parentNode.removeChild(variablename);
 	      if (res == jour) {
@@ -131,7 +134,10 @@
 	  <li><a href="#haut">Back to the top</a></li>
 
 	  <li><a href="https://twitter.com/Mahkda_">Contact me on twitter</a></li>
+	  
+	  <li><a href="https://github.com/Malo-Kerebel/daydle">Source code</a></li>
 
+	  <li><a href="https://en.wikipedia.org/wiki/Doomsday_rule">Doomsday Algorithm</a></li>
 	  
 	</ul>
 	
